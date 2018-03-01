@@ -20,7 +20,9 @@ def get_info(devices):
 	for device in devices:
 		usb_location.append(device.get("device"))
 	for item in usb_location:
-		(stdOutValue, stdErrValue) = subprocess.Popen(["lsusb","-D", item, "|", "grep", "Mass Storage"],stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()
-		print stdOutValue
+		proc1 = subprocess.Popen(["lsusb","-D", item],stdout=subprocess.PIPE)
+		proc2 = subprocess.Popen(["grep", "*Mass Storage*"], stdin=proc1.stdout, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+		out,err = proc2.communicate()
+		print('out: {0}'.format(out))
 
 get_info(get_usb())
