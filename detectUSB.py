@@ -25,8 +25,7 @@ def get_info(devices):
 		stdOutValue, stdErrValue = communicateRes
 		my_output_list = stdOutValue.split("\n")
 
-		for word in my_output_list :
-			print word
+		print my_output_list.find("Mass Storage")
 	#for mass in mass_storage:
 		#subprocess.Popen(["lsusb","-D", item],stdout=subprocess.PIPE, stderr=subprocess.PIPE) 
 get_info(get_usb())
