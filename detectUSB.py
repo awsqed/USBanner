@@ -20,15 +20,13 @@ def get_info(devices):
 	for device in devices:
 		usb_location.append(device.get("device"))
 	for item in usb_location:
-		temp = subprocess.Popen(["lsusb","-D", item],stdout=subprocess.PIPE)
-		while True:
-			line = proc.stdout.readline()
-			if line != '':
-    #the real code does filtering here
-				print "test:", line.rstrip()
-			else:
-				break
+		temp = subprocess.Popen(["lsusb","-D", item],stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+		communicateRes = temp.communicate()
+		stdOutValue, stdErrValue = communicateRes
+		my_output_list = stdOutValue.split("\n")
 
+		for word in my_output_list :
+			print word
 	#for mass in mass_storage:
 		#subprocess.Popen(["lsusb","-D", item],stdout=subprocess.PIPE, stderr=subprocess.PIPE) 
 get_info(get_usb())
