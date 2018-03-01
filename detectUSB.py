@@ -18,3 +18,5 @@ def get_info(devices):
 	for device in devices:
 		for key,value in device.iteritems():
 			print key+"\t"+"value"
+
+get_info(get_usb())
