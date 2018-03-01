@@ -40,4 +40,4 @@ def usb_details(device):
 		print "Error detecting USB details..."
 
 print get_usb() #[u'/dev/sdb1']
-print usb_details('/dev/bus/usb/001/002')
+print usb_details('/dev/bus/usb/')
