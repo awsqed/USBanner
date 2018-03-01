@@ -25,9 +25,9 @@ def get_info(devices):
 		stdOutValue, stdErrValue = communicateRes
 		my_output_list = stdOutValue.split(" ")
 
-# after the split we have a list of string in my_output_list 
-		for word in my_output_list :
-			if word == "bInterfaceClass":
-				print "bInterfaceClass"
+		print my_output_list
+		#for word in my_output_list :
+		#	if word == "bInterfaceClass":
+		#		print
 
 get_info(get_usb())
