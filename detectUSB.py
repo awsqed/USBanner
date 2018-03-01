@@ -22,7 +22,7 @@ def get_info(devices):
 	for item in usb_location:
 		proc1 = subprocess.Popen(["lsusb","-D", item],stdout=subprocess.PIPE)
 		proc2 = subprocess.Popen(["grep", "*Mass Storage*"], stdin=proc1.stdout, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-		out,err = proc2.communicate()
+		out,err = proc1.communicate()
 		print('out: {0}'.format(out))
 
 get_info(get_usb())
