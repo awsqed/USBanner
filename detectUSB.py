@@ -21,7 +21,13 @@ def get_info(devices):
 		usb_location.append(device.get("device"))
 	for item in usb_location:
 		temp = subprocess.Popen(["lsusb","-D", item],stdout=subprocess.PIPE).communicate()[0]
-		temp.find('bInterfaceClass')
+		communicateRes = temp.communicate()
+		stdOutValue, stdErrValue = communicateRes
+		my_output_list = stdOutValue.split(" ")
 
+# after the split we have a list of string in my_output_list 
+		for word in my_output_list :
+			if word == "myword":
+			print "something something"
 
 get_info(get_usb())
