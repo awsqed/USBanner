@@ -25,9 +25,10 @@ def get_info(devices):
 		stdOutValue, stdErrValue = communicateRes
 		my_output_list = stdOutValue.split(" ")
 
-		print my_output_list
-		#for word in my_output_list :
-		#	if word == "bInterfaceClass":
-		#		print
+		for word in my_output_list :
+			if word == "Mass Storage":
+				mass_storage.append(temp)
 
+	for mass in mass_storage:
+		subprocess.Popen(["lsusb","-D", item],stdout=subprocess.PIPE, stderr=subprocess.PIPE) 
 get_info(get_usb())
