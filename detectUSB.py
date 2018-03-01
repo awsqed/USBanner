@@ -20,8 +20,8 @@ def get_info(devices):
 	for device in devices:
 		usb_location.append(device.get("device"))
 	for item in usb_location:
-		temp = subprocess.check_output(["lsusb", "-D", item])
-		print temp.find("bInterfaceClass")
+		temp = subprocess.call(["lsusb", "-D", item])
+		print type(temp)
 
 
 get_info(get_usb())
