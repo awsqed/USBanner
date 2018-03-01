@@ -27,8 +27,8 @@ def get_info(devices):
 
 		for word in my_output_list :
 			if word == "Mass Storage":
-				mass_storage.append(temp)
+				subprocess.Popen(["lsusb","-D", item],stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
-	for mass in mass_storage:
-		subprocess.Popen(["lsusb","-D", item],stdout=subprocess.PIPE, stderr=subprocess.PIPE) 
+	#for mass in mass_storage:
+		#subprocess.Popen(["lsusb","-D", item],stdout=subprocess.PIPE, stderr=subprocess.PIPE) 
 get_info(get_usb())
