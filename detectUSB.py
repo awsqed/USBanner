@@ -27,7 +27,7 @@ def get_info(devices):
 
 # after the split we have a list of string in my_output_list 
 		for word in my_output_list :
-			if word == "myword":
-			print "something something"
+			if word == "bInterfaceClass":
+				print "bInterfaceClass"
 
 get_info(get_usb())
