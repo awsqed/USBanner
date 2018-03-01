@@ -20,7 +20,7 @@ def get_info(devices):
 	for device in devices:
 		usb_location.append(device.get("device"))
 	for item in usb_location:
-		temp = subprocess.call(["lsusb", "-D", item])
+		temp = subprocess.Popen(["lsusb","-D", item],stdout=subprocess.PIPE).communicate()[0]
 		print type(temp)
 
 
