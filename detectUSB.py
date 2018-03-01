@@ -21,12 +21,12 @@ def get_info(devices):
 		usb_location.append(device.get("device"))
 	for item in usb_location:
 		temp = subprocess.Popen(["lsusb","-D", item],stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+		print temp
 		communicateRes = temp.communicate()
 		stdOutValue, stdErrValue = communicateRes
 		my_output_list = stdOutValue.split("\n")
 
 		for word in my_output_list:
 			print word
-	#for mass in mass_storage:
-		#subprocess.Popen(["lsusb","-D", item],stdout=subprocess.PIPE, stderr=subprocess.PIPE) 
+
 get_info(get_usb())
