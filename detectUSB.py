@@ -15,6 +15,9 @@ def get_usb():
 	return devices
 
 def get_info(devices):
+	usb_location=[]
 	for device in devices:
-		print "Value: %s" % device.get("device")
+		usb_location.append(device.get("device"))
+	for item in usb_location:
+		subprocess.call(["lsusb", "-D", item])
 get_info(get_usb())
