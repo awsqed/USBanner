@@ -39,4 +39,5 @@ def usb_details(device):
 	except:
 		print "Error detecting USB details..."
 
+print get_usb()
 print usb_details(get_usb())
