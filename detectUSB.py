@@ -23,7 +23,6 @@ def event_handle():
 						if i.bInterfaceClass == 8: # Get interface class , Mass storage will equal to 8	
 							if ids not in class8_list:
 								class8_list.append(ids) # append to list for remove action
-							print class8_list
 							with open(LOG_FOLDER+"/add.log","a+") as f:
 								temp = LOG_FORMAT.format(datetime.datetime.now().strftime("%H:%M:%S"),'INFO',ids) +" is plugged in.\n"
 								f.write(temp)
@@ -34,7 +33,6 @@ def event_handle():
 					pass
 				else:
 					class8_list.remove(ids)
-				print class8_list
 				with open(LOG_FOLDER+"/remove.log","a+") as f:
 					temp = LOG_FORMAT.format(datetime.datetime.now().strftime("%H:%M:%S"),'INFO',ids) +" is unplugged.\n"
 					f.write(temp)
