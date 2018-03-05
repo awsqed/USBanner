@@ -17,16 +17,16 @@ def event_handle():
 					for i in cfg:
 						if i.bInterfaceClass == 8: # Get interface class , Mass storage will equal to 8
 							with open("test/logs/add.log","a+") as f:
-								f.write('{0}| INFO | VendorID: {1} , ModelID: {2} connected, Is Mass storage: Yes.\n'.format(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),device.get('ID_VENDOR_ID'), device.get('ID_MODEL_ID')))
+								f.write('{0} | INFO | VendorID: {1} | ModelID: {2} | connected | Mass storage: Yes.\n'.format(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),device.get('ID_VENDOR_ID'), device.get('ID_MODEL_ID')))
 								f.close()
 						else:
 							with open("test/logs/add.log","a+") as f:
-								f.write('{0}| INFO | VendorID: {1} , ModelID: {2} connected, Is Mass storage: No.\n'.format(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),device.get('ID_VENDOR_ID'), device.get('ID_MODEL_ID')))
+								f.write('{0} | INFO | VendorID: {1} | ModelID: {2} | connected | Mass storage: No.\n'.format(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),device.get('ID_VENDOR_ID'), device.get('ID_MODEL_ID')))
 								f.close()
 		if device.action == 'remove':
 			with open("test/logs/remove.log","a+") as f:
 				if None != device.get('ID_VENDOR_ID'):
-					f.write('{0}| INFO | VendorID: {1} , ModelID: {2} disconnected.\n'.format(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),device.get('ID_VENDOR_ID'), device.get('ID_MODEL_ID')))
+					f.write('{0} | INFO | VendorID: {1} | ModelID: {2} | disconnected.\n'.format(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),device.get('ID_VENDOR_ID'), device.get('ID_MODEL_ID')))
 					f.close()
 		
 event_handle()
