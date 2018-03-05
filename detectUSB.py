@@ -11,29 +11,38 @@ def event_handle():
 	context = pyudev.Context()
 	monitor = pyudev.Monitor.from_netlink(context)
 	monitor.filter_by(subsystem='usb')
+	class8_list=[]
 	for device in iter(monitor.poll, None):
+		ids=str(device.get('ID_VENDOR_ID'))+':'+str(device.get('ID_MODEL_ID'))
 		if device.action == 'add':
 			# idVendor and idProduct will be hex
 			if None != device.get('ID_VENDOR_ID'):
 				dev = usb.core.find(idVendor=int(device.get('ID_VENDOR_ID'),16), idProduct=int(device.get('ID_MODEL_ID'),16))
 				for cfg in dev:
 					for i in cfg:
-						if i.bInterfaceClass == 8: # Get interface class , Mass storage will equal to 8
+						if i.bInterfaceClass == 8: # Get interface class , Mass storage will equal to 8	
+							if ids not in class8_list:
+								class8_list.append(ids) # append to list for remove action
+							print class8_list
 							with open(LOG_FOLDER+"/add.log","a+") as f:
-								temp = LOG_FORMAT.format(datetime.datetime.now().strftime("%H:%M:%S"),'INFO',device.get('ID_VENDOR_ID')+':'+device.get('ID_MODEL_ID')) +" is plugged in.\n"
+								temp = LOG_FORMAT.format(datetime.datetime.now().strftime("%H:%M:%S"),'INFO',ids) +" is plugged in.\n"
 								f.write(temp)
 								f.close()
 		if device.action == 'remove':
-			with open(LOG_FOLDER+"/remove.log","a+") as f:
-				if None != device.get('ID_VENDOR_ID'):
-					temp = LOG_FORMAT.format(datetime.datetime.now().strftime("%H:%M:%S"),'INFO',device.get('ID_VENDOR_ID')+':'+device.get('ID_MODEL_ID')) +" is unplugged.\n"
+			if None != device.get('ID_VENDOR_ID'):
+				if ids not in class8_list:
+					pass
+				else:
+					class8_list.remove(ids)
+				print class8_list
+				with open(LOG_FOLDER+"/remove.log","a+") as f:
+					temp = LOG_FORMAT.format(datetime.datetime.now().strftime("%H:%M:%S"),'INFO',ids) +" is unplugged.\n"
 					f.write(temp)
 					f.close()
 
 def logs_folder_creator():
 	if os.path.exists("/home/quanghuynh/USBanner/test/logs/{}".format(time.strftime("%Y-%m-%d"))) == False:
 		os.makedirs("/home/quanghuynh/USBanner/test/logs/{}".format(time.strftime("%Y-%m-%d")))
-
 
 event_handle()
 
