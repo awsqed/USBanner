@@ -1,6 +1,7 @@
-import re, sys, os
+import re, sys, os, datetime
 import subprocess
 import pyudev
+import usb.core, usb.util
 
 
 def event_handle():
@@ -9,33 +10,25 @@ def event_handle():
 	monitor.filter_by(subsystem='usb')
 	for device in iter(monitor.poll, None):
 		if device.action == 'add':
-			with open("test/logs/add.log","a+") as f:
-				if None != device.get('ID_VENDOR_ID'):
-					f.write('Vendor: {0} , Model: {1} connected\n'.format(device.get('ID_VENDOR_ID'), device.get('ID_MODEL_ID')))
+			# idVendor and idProduct will be hex
+			if None != device.get('ID_VENDOR_ID'):
+				dev = usb.core.find(idVendor=int(device.get('ID_VENDOR_ID'),16), idProduct=int(device.get('ID_MODEL_ID'),16))
+				for cfg in dev:
+					for i in cfg:
+						if i.bInterfaceClass == 8: # Get interface class , Mass storage will equal to 8
+							with open("test/logs/add.log","a+") as f:
+								f.write('{0}| INFO | VendorID: {1} , ModelID: {2} connected, Is Mass storage: Yes.\n'.format(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),device.get('ID_VENDOR_ID'), device.get('ID_MODEL_ID')))
+								f.close()
+						else:
+							with open("test/logs/add.log","a+") as f:
+								f.write('{0}| INFO | VendorID: {1} , ModelID: {2} connected, Is Mass storage: No.\n'.format(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),device.get('ID_VENDOR_ID'), device.get('ID_MODEL_ID')))
+								f.close()
 		if device.action == 'remove':
 			with open("test/logs/remove.log","a+") as f:
 				if None != device.get('ID_VENDOR_ID'):
-					f.write('Vendor: {0} , Model: {1} connected\n'.format(device.get('ID_VENDOR_ID'), device.get('ID_MODEL_ID')))	
-
-def get_usb():
-	device_re = re.compile("Bus\s+(?P<bus>\d+)\s+Device\s+(?P<device>\d+).+ID\s(?P<id>\w+:\w+)\s(?P<tag>.+)$", re.I)
-	df = subprocess.check_output("lsusb")
-	devices = []
-	for i in df.split('\n'):
-		if i:
-			info = device_re.match(i)
-			if info:
-				dinfo = info.groupdict()
-				dinfo['device'] = '/dev/bus/usb/%s/%s' % (dinfo.pop('bus'), dinfo.pop('device'))
-				devices.append(dinfo)
-	for device in devices:
-		print device
-	#for device in devices:
-	#	temp = device.get("device")
-	#	print temp
-	#	command = ['lsusb', '-D', '{}'.format(temp), "|", "grep", "-Ei", "'(idVendor|Mass Storage)'"]
-	#	print subprocess.check_output(command,shell=True) 
-
+					f.write('{0}| INFO | VendorID: {1} , ModelID: {2} disconnected.\n'.format(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),device.get('ID_VENDOR_ID'), device.get('ID_MODEL_ID')))
+					f.close()
+		
 event_handle()
 
 
