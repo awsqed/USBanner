@@ -1,15 +1,8 @@
-[0][00:29:27][INFO]: 1005:b113 is unplugged
-[0][00:29:27][INFO]: 1005:b113 is unplugged
-[0][00:29:34][INFO]: 1005:b113 is plugged in
-[0][00:29:34][INFO]: 1005:b113 is plugged in
-[0][00:29:34][INFO]: 1005:b113 is plugged in
-[0][00:30:25][INFO]: 1005:b113 is unplugged
-[0][00:30:25][INFO]: 1005:b113 is unplugged
-[0][00:30:29][INFO]: 1005:b113 is plugged in
-[0][00:30:29][INFO]: 1005:b113 is plugged in
-[0][00:30:29][INFO]: 1005:b113 is plugged in
-[0][00:30:56][INFO]: 1005:b113 is unplugged
-[0][00:30:56][INFO]: 1005:b113 is unplugged
-[0][00:31:02][INFO]: 1005:b113 is plugged in
-[0][00:31:02][INFO]: 1005:b113 is plugged in
-[0][00:31:02][INFO]: 1005:b113 is plugged in
+[0][01:14:05][INFO]: 1005:b113 is unplugged.
+[0][01:32:38][INFO]: 1005:b113 is plugged in.
+[0][01:32:38][WARN]: 1005:b113 is not in the whitelist. Disconnected.
+[0][01:32:51][INFO]: 1005:b113 is unplugged.
+[0][01:35:07][INFO]: 1005:b113 is plugged in.
+[0][01:35:07][WARN]: 1005:b113 is not in the whitelist. Disconnected.
+[0][01:37:01][INFO]: 1005:b113 is plugged in.
+[0][01:37:01][WARN]: 1005:b113 is allowed to connect.

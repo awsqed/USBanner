@@ -1,15 +1,27 @@
-import re, sys, os, datetime, time, getpass, threading
+import re, sys, os, datetime, time, getpass
 import subprocess
 import pyudev
 import usb.core, usb.util
 
 LOG_FORMAT = "[0][{0}][{1}]: {2}\n"
-USB_LIST = []
+CONNECTED_USB = []
+WHITELIST = []
+
+def init_whitelist():
+    filename = "whitelist"
+    try:
+        with open(filename, "r") as f:
+            global WHITELIST
+            WHITELIST = f.readline().split("|")
+    except IOError:
+        print "Whitelist file does not exist, creating one..."
+        with open(filename, "w") as f:
+            f.close()
 
 def create_log_folder(name):
     path = "logs/" + name
     if os.path.exists(path) == False:
-        print "Log folder doesn't exist, creating one..."
+        print "Log folder does not exist, creating one..."
         os.makedirs(path)
 
 def log(log_type, log_level, message):
@@ -26,7 +38,7 @@ def is_usb(device):
         if usb.util.find_descriptor(cfg, bInterfaceClass = 8) != None:
             return True
 
-def monitoring():
+def usb_monitor():
     print "Monitoring..."
     monitor = pyudev.Monitor.from_netlink(pyudev.Context())
     monitor.filter_by(subsystem = "usb")
@@ -38,16 +50,20 @@ def monitoring():
             if device.get("ID_VENDOR_ID") != None:
                 dev = usb.core.find(find_all = False, idVendor = int(vendor_id, 16), idProduct = int(model_id, 16), custom_match = is_usb)
                 if dev != None:
-                    if uid not in USB_LIST:
-                        USB_LIST.append(uid)
-                        log("connection", "INFO", uid + " is plugged in")
-                        print uid + " is plugged in."
+                    if uid not in CONNECTED_USB:
+                        CONNECTED_USB.append(uid)
+                        log("connection", "INFO", uid + " is plugged in.")
+                        if uid not in WHITELIST:
+                            os.system("echo 0 > " + device.sys_path + "/authorized")
+                            log("connection", "WARN", uid + " is not in the whitelist. Disconnected.")
+                        else:
+                            log("connection", "WARN", uid + " is allowed to connect.")
         if device.action == "remove":
-            if uid in USB_LIST:
-                USB_LIST.remove(uid)
-                log("connection", "INFO", uid + " is unplugged")
-                print uid + " is unplugged."
+            if uid in CONNECTED_USB:
+                CONNECTED_USB.remove(uid)
+                log("connection", "INFO", uid + " is unplugged.")
 
 if __name__ == "__main__":
+    init_whitelist()
     create_log_folder("connection")
-    threading.Thread(target = monitoring).start()
+    usb_monitor()
