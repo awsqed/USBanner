@@ -1,5 +1,4 @@
-import re, sys, os, datetime, time, getpass
-import subprocess
+import os, datetime, time
 import pyudev
 import usb.core, usb.util
 
