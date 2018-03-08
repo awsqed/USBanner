@@ -66,4 +66,7 @@ def usb_monitor():
 if __name__ == "__main__":
     init_whitelist()
     create_log_folder("connection")
-    usb_monitor()
+    try:
+        usb_monitor()
+    except KeyboardInterrupt:
+        print "Program exited"
