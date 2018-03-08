@@ -17,6 +17,7 @@ def init_whitelist():
         print "Whitelist file does not exist, creating one..."
         with open(filename, "w") as f:
             f.close()
+        os.system("chmod 0600 "+filename)
 
 def create_log_folder(name):
     path = "logs/" + name
