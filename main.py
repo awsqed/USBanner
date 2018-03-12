@@ -1,4 +1,4 @@
-import os, datetime, time
+import os, time
 import pyudev
 import usb.core, usb.util
 
@@ -27,7 +27,7 @@ def create_log_folder(name):
 def log(log_type, log_level, message):
     path = "logs/{0}/{1}.log".format(log_type, time.strftime("%Y-%m-%d"))
     with open(path, "a+") as f:
-        entry = LOG_FORMAT.format(datetime.datetime.now().strftime("%H:%M:%S"), log_level, message)
+        entry = LOG_FORMAT.format(time.strftime("%H:%M:%S"), log_level, message)
         f.write(entry)
         f.close()
 
